@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4898DEA-566
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocabularySpider", "src\VocabularySpider\VocabularySpider.csproj", "{E4B69032-88F0-4ED5-98FE-384F9D6F3B77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{761C3433-6F2C-4143-BBDD-CE471AABB785}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocabularySpider.Tests", "test\VocabularySpider.Tests\VocabularySpider.Tests.csproj", "{C7CACA40-47BF-4664-80ED-7790626D4EC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{E4B69032-88F0-4ED5-98FE-384F9D6F3B77}.Release|x64.Build.0 = Release|Any CPU
 		{E4B69032-88F0-4ED5-98FE-384F9D6F3B77}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4B69032-88F0-4ED5-98FE-384F9D6F3B77}.Release|x86.Build.0 = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|x64.Build.0 = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Debug|x86.Build.0 = Debug|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|x64.Build.0 = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E4B69032-88F0-4ED5-98FE-384F9D6F3B77} = {D4898DEA-5666-4FEB-B290-1342FF833F7A}
+		{C7CACA40-47BF-4664-80ED-7790626D4EC8} = {761C3433-6F2C-4143-BBDD-CE471AABB785}
 	EndGlobalSection
 EndGlobal
