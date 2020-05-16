@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace VocabularySpider
 {
-    public class ReverseContextPopularVerbs
+    public class ReversoContextPopularVerbs
     {
         private readonly string url = "https://conjugator.reverso.net/conjugation-{0}.html";
         private readonly HtmlWeb web;
@@ -21,7 +21,7 @@ namespace VocabularySpider
 
         public IEnumerable<string> PopularVerbsConjugationUrls => linkNodes.Select(l => l.Attributes["href"].Value);
 
-        public ReverseContextPopularVerbs(string language)
+        public ReversoContextPopularVerbs(string language)
         {
             if (!AvailableLanguages.Contains(language.ToLower()))
             {
