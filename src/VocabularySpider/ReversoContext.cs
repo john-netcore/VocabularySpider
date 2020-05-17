@@ -19,13 +19,11 @@ namespace VocabularySpider
             get { return language; }
             protected set
             {
-                value = value.ToLower();
-
-                if (value == null || !AvailableLanguages.Contains(value))
+                if (value == null || !AvailableLanguages.Contains(value.ToLower()))
                 {
                     throw new ArgumentException("Language is not available");
                 }
-                language = value;
+                language = value.ToLower();
             }
         }
     }
