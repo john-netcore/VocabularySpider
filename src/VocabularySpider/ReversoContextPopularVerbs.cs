@@ -14,7 +14,8 @@ namespace VocabularySpider
         private static HashSet<string> AvailableLanguages { get; } = new HashSet<string> {
             "english",
             "spanish",
-            "italian"
+            "italian",
+            "french"
         };
 
         public IEnumerable<string> PopularVerbs => linkNodes.Select(l => l.InnerText.Trim());
@@ -23,7 +24,7 @@ namespace VocabularySpider
 
         public ReversoContextPopularVerbs(string language)
         {
-            if (!AvailableLanguages.Contains(language.ToLower()))
+            if (language == null || !AvailableLanguages.Contains(language.ToLower()))
             {
                 throw new ArgumentException("Language is not available");
             }
