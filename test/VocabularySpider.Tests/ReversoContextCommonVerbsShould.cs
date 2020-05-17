@@ -39,6 +39,15 @@ namespace VocabularySpider.Tests
             Assert.Throws<ArgumentException>(() => new ReversoContextCommonVerbs(unexistingLanguage));
         }
 
+        [Fact]
+        public void RetrieveSameLanguageAsLanguageArgument()
+        {
+            var expectedLanguage = "french";
+            var sut = new ReversoContextCommonVerbs(expectedLanguage);
+
+            Assert.Equal(expectedLanguage, sut.Language);
+        }
+
         [Theory]
         [CommonVerbsData]
         public void ShouldRetrieveAllVerbsFromGivenIndex(string language, int expectedVerbCount)
