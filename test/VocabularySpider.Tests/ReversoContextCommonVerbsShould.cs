@@ -50,16 +50,16 @@ namespace VocabularySpider.Tests
 
         [Theory]
         [CommonVerbsData]
-        public void ShouldRetrieveAllVerbsFromGivenIndex(string language, int expectedVerbCount)
+        public void ShouldRetrieveAllVerbsFromGivenIndex(string language, string index, int expectedVerbCount)
         {
             var sut = new ReversoContextCommonVerbs(language);
-            var index = "1-250";
 
             IEnumerable<string> verbs = sut.RetrieveVerbsFromIndex(index);
+            int actualCount = verbs.Count();
 
-            printCommonVerbs(verbs);
+            output.WriteLine($"Language: {language}, Index: {index}, Expected: {expectedVerbCount}, Actual: {actualCount}");
 
-            Assert.Equal(expectedVerbCount, verbs.Count());
+            Assert.Equal(expectedVerbCount, actualCount);
         }
     }
 }
