@@ -17,11 +17,13 @@ namespace VocabularySpider
             web = new HtmlWeb();
         }
 
-        public IEnumerable<string> RetrieveVerbsFromIndex(string index)
+        public IEnumerable<Verb> RetrieveVerbsFromIndex(string index)
         {
             var url = string.Format(urlTemplate, Language, index);
             var htmlDoc = web.Load(url);
-            var commonVerbs = htmlDoc.DocumentNode.SelectNodes(xpath).Select(l => l.InnerText);
+            var commonVerbs = htmlDoc.DocumentNode
+                                    .SelectNodes(xpath)
+                                    .Select(l => new Verb(l.InnerText, l.Attributes["href"].Value));
 
             return commonVerbs;
         }

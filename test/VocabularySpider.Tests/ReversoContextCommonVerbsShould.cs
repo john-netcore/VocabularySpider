@@ -54,7 +54,7 @@ namespace VocabularySpider.Tests
         {
             var sut = new ReversoContextCommonVerbs(language);
 
-            IEnumerable<string> verbs = sut.RetrieveVerbsFromIndex(index);
+            IEnumerable<Verb> verbs = sut.RetrieveVerbsFromIndex(index);
             int actualCount = verbs.Count();
 
             output.WriteLine($"Language: {language}, Index: {index}, Expected: {expectedVerbCount}, Actual: {actualCount}");
