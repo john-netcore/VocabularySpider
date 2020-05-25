@@ -5,18 +5,12 @@ using System.Linq;
 
 namespace VocabularySpider
 {
-    public class ReversoContextPopularVerbs
+    public class ReversoContextPopularVerbs : ReversoContext
     {
         private readonly string url = "https://conjugator.reverso.net/conjugation-{0}.html";
         private readonly HtmlWeb web;
         private readonly string xpath = "//*[@id=\"ch_ExtrasVerbs\"]/div/ol/li/a";
         private HtmlNodeCollection linkNodes;
-        private static HashSet<string> AvailableLanguages { get; } = new HashSet<string> {
-            "english",
-            "spanish",
-            "italian",
-            "french"
-        };
 
         public IEnumerable<string> PopularVerbs => linkNodes.Select(l => l.InnerText.Trim());
 
@@ -24,32 +18,17 @@ namespace VocabularySpider
 
         public ReversoContextPopularVerbs(string language)
         {
-            if (language == null || !AvailableLanguages.Contains(language.ToLower()))
-            {
-                throw new ArgumentException("Language is not available");
-            }
+            Language = language;
             this.url = string.Format(url, language);
             this.web = new HtmlWeb();
-
-            RetrievePopularVerbs();
         }
 
-        private void RetrievePopularVerbs()
+        public IEnumerable<string> RetrieveVerbs()
         {
             var htmlDoc = web.Load(url);
             linkNodes = htmlDoc.DocumentNode.SelectNodes(xpath);
-        }
 
-        public override string ToString()
-        {
-            string temp = "";
-
-            foreach (var link in linkNodes)
-            {
-                temp += link.ToString() + "\n";
-            }
-
-            return temp;
+            return linkNodes.Select(n => n.InnerText.Trim());
         }
     }
 }

@@ -45,9 +45,10 @@ namespace VocabularySpider.Tests
         {
             var sut = new ReversoContextPopularVerbs(language);
 
-            printPopularVerbs(sut.PopularVerbs);
+            var popularVerbs = sut.RetrieveVerbs();
+            printPopularVerbs(popularVerbs);
 
-            Assert.Equal(expectedVerbCount, sut.PopularVerbs.Count());
+            Assert.Equal(expectedVerbCount, popularVerbs.Count());
         }
 
     }
