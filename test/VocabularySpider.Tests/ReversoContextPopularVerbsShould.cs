@@ -15,11 +15,11 @@ namespace VocabularySpider.Tests
             this.output = output;
         }
 
-        private void printPopularVerbs(IEnumerable<string> popularVerbs)
+        private void printContent(IEnumerable<string> content)
         {
-            foreach (var verb in popularVerbs)
+            foreach (var value in content)
             {
-                output.WriteLine(verb);
+                output.WriteLine(value);
             }
         }
 
@@ -41,15 +41,26 @@ namespace VocabularySpider.Tests
 
         [Theory]
         [PopularVerbsData]
-        public void RetrieveAllPopularVerbs(string language, int expectedVerbCount)
+        public void RetrieveAllVerbs(string language, int expectedVerbCount)
         {
             var sut = new ReversoContextPopularVerbs(language);
 
             var popularVerbs = sut.RetrieveVerbs();
-            printPopularVerbs(popularVerbs);
+            printContent(popularVerbs);
 
             Assert.Equal(expectedVerbCount, popularVerbs.Count());
         }
 
+        [Theory]
+        [PopularVerbsData]
+        public void RetrieveAllVerbTensesUrls(string language, int expectedVerbCount)
+        {
+            var sut = new ReversoContextPopularVerbs(language);
+
+            var verbTensesUrls = sut.RetrieveVerbTensesUrls();
+            printContent(verbTensesUrls);
+
+            Assert.Equal(expectedVerbCount, verbTensesUrls.Count());
+        }
     }
 }
