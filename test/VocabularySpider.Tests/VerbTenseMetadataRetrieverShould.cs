@@ -31,113 +31,42 @@ namespace VocabularySpider.Tests
         }
 
         [Fact]
-        public void RetrieveItalianConjugationsForMood_Indicativo()
+        public void RetrieveSpanishVerbTenseNames()
         {
-            int expectedVerbTenseMoodCount = 8;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
+            var sut = new VerbTenseMetadataRetriever("spanish", "ser");
 
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Indicativo");
+            var verbTenseNamesCol = sut.RetrieveVerbTenseTypes();
 
-            foreach (var conjugation in verbTenseConjugations)
+            foreach (var verbTense in verbTenseNamesCol)
             {
-                output.WriteLine(conjugation);
+                output.WriteLine(verbTense);
             }
 
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
+            Assert.NotNull(verbTenseNamesCol);
         }
 
         [Fact]
-        public void RetrieveItalianConjugationsForMood_Congiuntivo()
+        public void RetrieveFrenchVerbTenseNames()
         {
-            int expectedVerbTenseMoodCount = 4;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
+            var sut = new VerbTenseMetadataRetriever("french", "avoir");
 
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Congiuntivo");
+            var verbTenseNamesCol = sut.RetrieveVerbTenseTypes();
 
-            foreach (var conjugation in verbTenseConjugations)
+            foreach (var verbTense in verbTenseNamesCol)
             {
-                output.WriteLine(conjugation);
+                output.WriteLine(verbTense);
             }
 
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
+            Assert.NotNull(verbTenseNamesCol);
         }
 
-        [Fact]
-        public void RetrieveItalianConjugationsForMood_Condizionale()
+        [Theory]
+        [VerbTenseData]
+        public void RetrieveVerbTensesForVerbTenseMood(string language, string verb, string verbTenseMood, int expectedVerbTenseMoodCount)
         {
-            int expectedVerbTenseMoodCount = 2;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
+            var sut = new VerbTenseMetadataRetriever(language, verb);
 
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Condizionale");
-
-            foreach (var conjugation in verbTenseConjugations)
-            {
-                output.WriteLine(conjugation);
-            }
-
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
-        }
-
-        [Fact]
-        public void RetrieveItalianConjugationsForMood_Imperativo()
-        {
-            int expectedVerbTenseMoodCount = 1;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
-
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Imperativo");
-
-            foreach (var conjugation in verbTenseConjugations)
-            {
-                output.WriteLine(conjugation);
-            }
-
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
-        }
-
-        [Fact]
-        public void RetrieveItalianConjugationsForMood_Gerundio()
-        {
-            int expectedVerbTenseMoodCount = 2;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
-
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Gerundio");
-
-            foreach (var conjugation in verbTenseConjugations)
-            {
-                output.WriteLine(conjugation);
-            }
-
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
-        }
-
-        [Fact]
-        public void RetrieveItalianConjugationsForMood_Infinito()
-        {
-            int expectedVerbTenseMoodCount = 1;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
-
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Infinito");
-
-            foreach (var conjugation in verbTenseConjugations)
-            {
-                output.WriteLine(conjugation);
-            }
-
-            Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
-        }
-
-        [Fact]
-        public void RetrieveItalianConjugationsForMood_Participio()
-        {
-            int expectedVerbTenseMoodCount = 2;
-            var sut = new VerbTenseMetadataRetriever("italian", "essere");
-
-            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection("Participio");
-
-            foreach (var conjugation in verbTenseConjugations)
-            {
-                output.WriteLine(conjugation);
-            }
+            var verbTenseConjugations = sut.RetrieveVerbTenseMoodCollection(verbTenseMood);
 
             Assert.Equal(expectedVerbTenseMoodCount, verbTenseConjugations.Count());
         }
