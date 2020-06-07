@@ -1,29 +1,36 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HtmlAgilityPack;
+using VocabularySpider.BL;
 
 namespace VocabularySpider
 {
-    public class ReversoContextCommonVerbs : ReversoContext
+    public static class ReversoContextCommonVerbs
     {
-        private readonly string urlTemplate = "https://conjugator.reverso.net/index-{0}-{1}.html";
-        private readonly string xpath = "//*[@id=\"form1\"]/div[4]/div/div[1]/div[4]/ol/li/a";
-        private readonly HtmlWeb web;
+        private static readonly string rootUrl = "https://conjugator.reverso.net";
+        private static readonly string urlTemplate = "https://conjugator.reverso.net/index-{0}-{1}.html";
+        private static readonly string xpath = "//*[@id=\"form1\"]/div[4]/div/div[1]/div[4]/ol/li/a";
+        private static readonly HtmlWeb web;
 
-        public ReversoContextCommonVerbs(string language)
+        static ReversoContextCommonVerbs()
         {
-            Language = language;
             web = new HtmlWeb();
         }
 
-        public IEnumerable<Verb> RetrieveVerbsFromIndex(string index)
+        public static IEnumerable<(string VerbName, string ConjugationPath)> RetrieveVerbsFromIndex(string language, string index)
         {
-            var url = string.Format(urlTemplate, Language, index);
+            var url = string.Format(urlTemplate, language, index);
             var htmlDoc = web.Load(url);
             var commonVerbs = htmlDoc.DocumentNode
                                     .SelectNodes(xpath)
-                                    .Select(l => new Verb(l.InnerText, l.Attributes["href"].Value));
+                                    .Select(l =>
+                                        (
+                                            VerbName: l.InnerText,
+                                            ConjugationPath: Path.Combine(rootUrl, l.Attributes["href"].Value)
+                                        )
+                                    );
 
             return commonVerbs;
         }

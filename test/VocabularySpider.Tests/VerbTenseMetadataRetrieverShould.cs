@@ -76,22 +76,20 @@ namespace VocabularySpider.Tests
         public void RetrieveAllCommonItalianVerbsConjugationsForMood_Congiuntivo(string index)
         {
             //Given
-            var commonVerbs = new ReversoContextCommonVerbs("italian");
-
             output.WriteLine("Retrieving verb names.");
-            IEnumerable<string> verbNames = commonVerbs.RetrieveVerbNameFromIndex(index);
+            IEnumerable<(string VerbName, string ConjugationPath)> verbs = ReversoContextCommonVerbs.RetrieveVerbsFromIndex("italian", index);
             output.WriteLine("Verb names retrieved.");
 
             List<string> conjugations = new List<string>();
 
             //When
 
-            foreach (var verbName in verbNames)
+            foreach (var verbContent in verbs)
             {
-                var verbTensemetadataRetriever = new VerbTenseMetadataRetriever("italian", verbName);
-                output.WriteLine($"Retrieving verb {verbName} conjugations.");
+                var verbTensemetadataRetriever = new VerbTenseMetadataRetriever("italian", verbContent.VerbName);
+                output.WriteLine($"Retrieving verb {verbContent.VerbName} conjugations.");
                 var conjugationsCol = verbTensemetadataRetriever.RetrieveHtmlConjugationsForVerbMood("Congiuntivo");
-                output.WriteLine($"Conjugations for verb {verbName} retrieved.");
+                output.WriteLine($"Conjugations for verb {verbContent.VerbName} retrieved.");
                 conjugations.AddRange(conjugationsCol);
             }
 
