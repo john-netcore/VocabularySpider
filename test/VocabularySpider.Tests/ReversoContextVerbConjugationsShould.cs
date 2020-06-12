@@ -3,6 +3,8 @@ using Xunit.Abstractions;
 using VocabularySpider.Italian;
 using VocabularySpider.French;
 using VocabularySpider.Spanish;
+using VocabularySpider.Classes;
+using VocabularySpider.Tests.DataAttributes;
 
 namespace VocabularySpider.Tests
 {
@@ -15,6 +17,7 @@ namespace VocabularySpider.Tests
             this.output = output;
         }
 
+        //TODO: Remove when finished with tests.
         [Fact]
         public void Test()
         {
@@ -33,7 +36,7 @@ namespace VocabularySpider.Tests
             //Arrange
             var expected = "mangiare";
             //Act
-            var actual = ReversoContextItalianVerbConjugations.GetVerbTense_Infinitive("mangiare");
+            var actual = ReversoContextVerbConjugations.GetVerbTense_Infinitive("italian", "mangiare");
             //Assert
             Assert.Equal(expected, actual, ignoreCase: true);
         }
@@ -60,45 +63,32 @@ namespace VocabularySpider.Tests
             Assert.Equal(expected, actual, ignoreCase: true);
         }
 
-        // [Fact]
-        // public void AddVerbTenseNamesToVerbTenseObject()
-        // {
-        //     //Arrange
-        //     var relativeUrl = "conjugation-french-verb-avoir.html";
-        //     var infinitive = "avoir";
-        //     var verb = new Verb(infinitive, relativeUrl);
-        //     var sut = new ReversoContextVerbConjugations();
+        [Theory]
+        [ItalianSimpleConjugationVerbTensesDataAttribute]
+        public void RetrieveItalianSimpleConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", verbTenseName);
 
-        //     //Act
-        //     sut.RetrieveAndAddVerbTenses(verb);
-        //     VerbTense actual;
-        //     verb.VerbTenses.TryGetValue("Indicatif Présent", out actual);
+            Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(((SimpleConjugation)c).Pronoun));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
 
-        //     //Assert
-        //     Assert.NotNull(actual);
-        // }
+        [Theory]
+        [ItalianCompoundConjugationVerbTensesData]
+        public void RetrieveItalianCompoundConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", verbTenseName);
 
-        // [Fact]
-        // public void AddVerbTensesToVerb()
-        // {
-        //     //Arrange
-        //     var relativeUrl = "conjugation-french-verb-avoir.html";
-        //     var infinitive = "avoir";
-        //     var verb = new Verb(infinitive, relativeUrl);
-        //     var sut = new ReversoContextVerbConjugations();
+            foreach (var conjugation in conjugations)
+            {
+                var comConj = (CompoundConjugation)conjugation;
+                output.WriteLine(comConj.Pronoun + " " + comConj.AuxiliaryVerb + " " + comConj.Verb);
+            }
 
-        //     //Act
-        //     sut.RetrieveAndAddVerbTenses(verb);
-        //     VerbTense actual;
-        //     verb.VerbTenses.TryGetValue("Indicatif Présent", out actual);
-
-        //     foreach (var conjugation in actual.Conjugations)
-        //     {
-        //         output.WriteLine($"Subject pronoun: {conjugation.SubjectPronoun}, Conjugation: {conjugation.Conjugation}");
-        //     }
-
-        //     //Assert
-        //     Assert.NotNull(actual);
-        // }
+            Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).Pronoun));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
     }
 }

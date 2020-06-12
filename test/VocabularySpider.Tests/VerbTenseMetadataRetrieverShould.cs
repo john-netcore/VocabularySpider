@@ -3,6 +3,7 @@ using Xunit.Abstractions;
 using VocabularySpider.VerbsMetadata;
 using System.Linq;
 using System.Collections.Generic;
+using VocabularySpider.Tests.DataAttributes;
 
 namespace VocabularySpider.Tests
 {

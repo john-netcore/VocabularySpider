@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Xunit.Sdk;
 
-namespace VocabularySpider.Tests
+namespace VocabularySpider.Tests.DataAttributes
 {
     public class CommonVerbsDataAttribute : DataAttribute
     {
