@@ -80,12 +80,6 @@ namespace VocabularySpider.Tests
         {
             var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", verbTenseName);
 
-            foreach (var conjugation in conjugations)
-            {
-                var comConj = (CompoundConjugation)conjugation;
-                output.WriteLine(comConj.Pronoun + " " + comConj.AuxiliaryVerb + " " + comConj.Verb);
-            }
-
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).Pronoun));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
