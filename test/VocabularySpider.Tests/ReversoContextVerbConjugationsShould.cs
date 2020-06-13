@@ -5,6 +5,7 @@ using VocabularySpider.French;
 using VocabularySpider.Spanish;
 using VocabularySpider.Classes;
 using VocabularySpider.Tests.DataAttributes;
+using System.Collections.Generic;
 
 namespace VocabularySpider.Tests
 {
@@ -83,6 +84,39 @@ namespace VocabularySpider.Tests
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).Pronoun));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
+
+        [Fact]
+        public void RetrieveItalianImperativeConjugations()
+        {
+            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", "Imperativo Presente");
+
+            PrintConjugations(conjugations);
+
+            Assert.All(conjugations, c => Assert.IsType<Conjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
+
+        private void PrintConjugations(IEnumerable<Conjugation> conjugations)
+        {
+            foreach (var conjugation in conjugations)
+            {
+                if (conjugation is SimpleConjugation)
+                {
+                    var simple = conjugation as SimpleConjugation;
+                    output.WriteLine($"{simple.Pronoun} {simple.Verb}");
+                }
+                else if (conjugation is CompoundConjugation)
+                {
+                    var compound = conjugation as CompoundConjugation;
+                    output.WriteLine($"{compound.Pronoun} {compound.AuxiliaryVerb} {compound.Verb}");
+                }
+                else
+                {
+                    output.WriteLine($"{conjugation.Verb}");
+                }
+
+            }
         }
     }
 }

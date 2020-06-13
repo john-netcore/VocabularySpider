@@ -12,6 +12,9 @@ namespace VocabularySpider.Tests.DataAttributes
             yield return new object[] { "Indicativo Imperfetto" };
             yield return new object[] { "Indicativo Passato remoto" };
             yield return new object[] { "Indicativo Futuro semplice" };
+            yield return new object[] { "Congiuntivo Presente" };
+            yield return new object[] { "Congiuntivo Imperfetto" };
+            yield return new object[] { "Condizionale Presente" };
         }
     }
 }

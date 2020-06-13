@@ -13,6 +13,8 @@ namespace VocabularySpider.Tests.DataAttributes
             yield return new object[] { "Indicativo Trapassato remoto" };
             yield return new object[] { "Indicativo Futuro anteriore" };
             yield return new object[] { "Condizionale Passato" };
+            yield return new object[] { "Congiuntivo Passato" };
+            yield return new object[] { "Congiuntivo Trapassato" };
         }
     }
 }

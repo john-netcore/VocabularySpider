@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HtmlAgilityPack;
 using VocabularySpider.Classes;
 
@@ -12,6 +13,9 @@ namespace VocabularySpider.Italian
             "Indicativo Imperfetto",
             "Indicativo Passato remoto",
             "Indicativo Futuro semplice",
+            "Congiuntivo Presente",
+            "Congiuntivo Imperfetto",
+            "Condizionale Presente",
         };
 
         private static HashSet<string> CompoundTenses = new HashSet<string>{
@@ -19,7 +23,9 @@ namespace VocabularySpider.Italian
             "Indicativo Trapassato prossimo",
             "Indicativo Trapassato remoto",
             "Indicativo Futuro anteriore",
-            "Condizionale Passato"
+            "Condizionale Passato",
+            "Congiuntivo Passato",
+            "Congiuntivo Trapassato",
         };
 
         public static Conjugation CreateConjugation(string verbTenseName, IEnumerable<HtmlNode> iNodes)
@@ -32,7 +38,21 @@ namespace VocabularySpider.Italian
             {
                 return CreateCompoundTenseConjugation(iNodes);
             }
+            else if (verbTenseName == "Imperativo Presente")
+            {
+                return CreateConjugation(iNodes);
+            }
+
             return null;
+        }
+
+        private static Conjugation CreateConjugation(IEnumerable<HtmlNode> iNodes)
+        {
+            var conjugation = new Conjugation();
+            var iNodeValue = iNodes.First().InnerText;
+            conjugation.Verb = iNodeValue;
+
+            return conjugation;
         }
 
         private static Conjugation CreateCompoundTenseConjugation(IEnumerable<HtmlNode> iNodes)
