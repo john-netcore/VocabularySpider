@@ -6,6 +6,7 @@ using VocabularySpider.Spanish;
 using VocabularySpider.Classes;
 using VocabularySpider.Tests.DataAttributes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VocabularySpider.Tests
 {
@@ -89,12 +90,13 @@ namespace VocabularySpider.Tests
         [Fact]
         public void RetrieveItalianImperativeConjugations()
         {
+            string[] expected = { "mangia", "mangi", "mangiamo", "mangiate", "mangino" };
             var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", "Imperativo Presente");
 
             PrintConjugations(conjugations);
 
             Assert.All(conjugations, c => Assert.IsType<Conjugation>(c));
-            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+            Assert.Equal(conjugations.Select(c => c.Verb), expected);
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
