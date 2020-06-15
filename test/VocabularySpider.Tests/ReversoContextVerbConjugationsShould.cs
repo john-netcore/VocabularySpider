@@ -26,7 +26,7 @@ namespace VocabularySpider.Tests
             //Arrange
             var expected = "essere";
             //Act
-            var actual = ReversoContextItalianVerbConjugations.GetVerbTense_Infinitive("essere");
+            var actual = ReversoContextVerbConjugations.GetVerbTense_Infinitive("italian", "essere");
             output.WriteLine(actual);
             //Assert
             Assert.Equal(expected, actual, ignoreCase: true);
@@ -49,7 +49,7 @@ namespace VocabularySpider.Tests
             //Arrange
             var expected = "&#234;tre";
             //Act
-            var actual = ReversoContextFrenchVerbConjugations.GetVerbTense_Infinitive("être");
+            var actual = ReversoContextVerbConjugations.GetVerbTense_Infinitive("french", "être");
             //Assert
             Assert.Equal(expected, actual, ignoreCase: true);
         }
@@ -60,7 +60,7 @@ namespace VocabularySpider.Tests
             //Arrange
             var expected = "rega&#241;ar";
             //Act
-            var actual = ReversoContextSpanishVerbConjugations.GetVerbTense_Infinitive("regañar");
+            var actual = ReversoContextVerbConjugations.GetVerbTense_Infinitive("spanish", "regañar");
             //Assert
             Assert.Equal(expected, actual, ignoreCase: true);
         }
@@ -69,7 +69,7 @@ namespace VocabularySpider.Tests
         [ItalianSimpleConjugationVerbTensesDataAttribute]
         public void RetrieveItalianSimpleConjugations(string verbTenseName)
         {
-            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", verbTenseName);
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
 
             Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((SimpleConjugation)c).Pronoun));
@@ -80,7 +80,7 @@ namespace VocabularySpider.Tests
         [ItalianCompoundConjugationVerbTensesData]
         public void RetrieveItalianCompoundConjugations(string verbTenseName)
         {
-            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", verbTenseName);
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
 
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).Pronoun));
@@ -91,7 +91,7 @@ namespace VocabularySpider.Tests
         public void RetrieveItalianImperativeConjugations()
         {
             string[] expected = { "mangia", "mangi", "mangiamo", "mangiate", "mangino" };
-            var conjugations = ReversoContextItalianVerbConjugations.GetVerbTenseConjugations("mangiare", "Imperativo Presente");
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", "Imperativo Presente");
 
             PrintConjugations(conjugations);
 
