@@ -1,0 +1,34 @@
+{
+  "simpleTenses": {
+    "italian": [
+      "Indicativo Presente",
+      "Indicativo Imperfetto",
+      "Indicativo Passato remoto",
+      "Indicativo Futuro semplice",
+      "Congiuntivo Presente",
+      "Congiuntivo Imperfetto",
+      "Condizionale Presente",
+      "Gerundio Presente",
+      "Imperativo Presente",
+      "Infinito Presente",
+      "Participio Presente",
+      "Participio Passato"
+    ],
+    "spanish": [],
+    "french": []
+  },
+  "compoundTenses": {
+    "italian": [
+      "Indicativo Passato prossimo",
+      "Indicativo Trapassato prossimo",
+      "Indicativo Trapassato remoto",
+      "Indicativo Futuro anteriore",
+      "Condizionale Passato",
+      "Congiuntivo Passato",
+      "Congiuntivo Trapassato",
+      "Gerundio Passato"
+    ],
+    "spanish": [],
+    "french": []
+  }
+}

@@ -1,47 +1,50 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VocabularySpider.Classes;
 
 namespace VocabularySpider
 {
-    //TODO: Remove this class if not able to create generic methods for all the conjugation retrievals.
     public class ReversoContextVerbConjugations
     {
         private static readonly string urlTemplate = "https://conjugator.reverso.net/conjugation-{0}-verb-{1}.html";
         protected static readonly string xPathAllVerbTenses = "//*[@mobile-title]";
         private static readonly string xPathVerbTenseTemplate = "//*[@mobile-title='{0}']/ul";
-        private readonly string xPathVerbMoodTemplate = "//*[starts-with(@mobile-title, '{0}')]";
+        // private readonly string xPathVerbMoodTemplate = "//*[starts-with(@mobile-title, '{0}')]";
         protected static readonly HtmlWeb web;
-        private static HashSet<string> Tenses = new HashSet<string>{
-            "Imperativo Presente",
-            "Gerundio Presente",
-            "Infinito Presente",
-            "Participio Presente",
-            "Participio Passato"
-        };
-        private static HashSet<string> SimpleTenses = new HashSet<string>{
-            "Indicativo Presente",
-            "Indicativo Imperfetto",
-            "Indicativo Passato remoto",
-            "Indicativo Futuro semplice",
-            "Congiuntivo Presente",
-            "Congiuntivo Imperfetto",
-            "Condizionale Presente",
-        };
-        private static HashSet<string> CompoundTenses = new HashSet<string>{
-            "Indicativo Passato prossimo",
-            "Indicativo Trapassato prossimo",
-            "Indicativo Trapassato remoto",
-            "Indicativo Futuro anteriore",
-            "Condizionale Passato",
-            "Congiuntivo Passato",
-            "Congiuntivo Trapassato",
-        };
+        private static Dictionary<string, HashSet<string>> SimpleTenses = new Dictionary<string, HashSet<string>>();
+        private static Dictionary<string, HashSet<string>> CompoundTenses = new Dictionary<string, HashSet<string>>();
 
         static ReversoContextVerbConjugations()
         {
             web = new HtmlWeb();
+            ReadAndParseVerbTenses();
+        }
+
+        private static void ReadAndParseVerbTenses()
+        {
+            using (StreamReader reader = new StreamReader("data/verbTenses.json"))
+            {
+                string json = reader.ReadToEnd();
+                var jobject = JObject.Parse(json);
+
+                PopulateVerbTenseTypes("italian", jobject);
+                PopulateVerbTenseTypes("spanish", jobject);
+                PopulateVerbTenseTypes("french", jobject);
+            }
+        }
+
+        private static void PopulateVerbTenseTypes(string language, JObject jobject)
+        {
+            SimpleTenses.Add(language, new HashSet<string>());
+            jobject["simpleTenses"][language].ToList().ForEach(t => SimpleTenses[language].Add((string)t));
+
+            CompoundTenses.Add(language, new HashSet<string>());
+            jobject["compoundTenses"][language].ToList().ForEach(t => CompoundTenses[language].Add((string)t));
         }
 
         private static HtmlDocument LoadHtmlDocument(string language, string verbName)
@@ -69,7 +72,7 @@ namespace VocabularySpider
             {
                 var verbTenseName = verbTenseDivNode.Attributes["mobile-title"].Value;
                 var ulNode = verbTenseDivNode.Descendants("ul").First();
-                var conjugations = GetVerbTenseConjugations(verbTenseName, ulNode);
+                var conjugations = GetVerbTenseConjugations(language, verbTenseName, ulNode);
                 var verbTense = new VerbTense(verbTenseName);
                 verbTense.Conjugations = conjugations.ToList();
                 verb.VerbTenses.Add(verbTense);
@@ -78,14 +81,14 @@ namespace VocabularySpider
             return verb;
         }
 
-        private static IEnumerable<Conjugation> GetVerbTenseConjugations(string verbTenseName, HtmlNode ulNode)
+        private static IEnumerable<Conjugation> GetVerbTenseConjugations(string language, string verbTenseName, HtmlNode ulNode)
         {
             var conjugations = new List<Conjugation>();
 
             foreach (var liNode in ulNode.Descendants("li"))
             {
                 var iNodes = liNode.Descendants("i");
-                var conjugation = CreateConjugation(verbTenseName, iNodes);
+                var conjugation = CreateConjugation(language, verbTenseName, iNodes);
                 if (conjugation != null)
                 {
                     conjugations.Add(conjugation);
@@ -104,37 +107,24 @@ namespace VocabularySpider
             foreach (var liNode in ulNode.Descendants("li"))
             {
                 var iNodes = liNode.Descendants("i");
-                var conjugation = CreateConjugation(verbTenseName, iNodes);
+                var conjugation = CreateConjugation(language, verbTenseName, iNodes);
                 conjugations.Add(conjugation);
             }
 
             return conjugations;
         }
-        private static Conjugation CreateConjugation(string verbTenseName, IEnumerable<HtmlNode> iNodes)
+        private static Conjugation CreateConjugation(string language, string verbTenseName, IEnumerable<HtmlNode> iNodes)
         {
-            if (SimpleTenses.Contains(verbTenseName))
+            if (SimpleTenses[language].Contains(verbTenseName))
             {
                 return CreateSimpleTenseConjugation(iNodes);
             }
-            else if (CompoundTenses.Contains(verbTenseName))
+            else if (CompoundTenses[language].Contains(verbTenseName))
             {
                 return CreateCompoundTenseConjugation(iNodes);
             }
-            else if (Tenses.Contains(verbTenseName))
-            {
-                return CreateConjugation(iNodes);
-            }
 
             return null;
-        }
-
-        private static Conjugation CreateConjugation(IEnumerable<HtmlNode> iNodes)
-        {
-            var conjugation = new Conjugation();
-            var iNodeValue = iNodes.First().InnerText;
-            conjugation.Verb = iNodeValue;
-
-            return conjugation;
         }
 
         private static Conjugation CreateCompoundTenseConjugation(IEnumerable<HtmlNode> iNodes)
@@ -153,7 +143,7 @@ namespace VocabularySpider
                 {
                     conjugation.AuxiliaryVerb = iNodeValue;
                 }
-                else
+                else if (classAttributeValue == "verbtxt")
                 {
                     conjugation.Verb = iNodeValue;
                 }

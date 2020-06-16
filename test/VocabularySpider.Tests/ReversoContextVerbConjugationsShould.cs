@@ -92,7 +92,7 @@ namespace VocabularySpider.Tests
 
             PrintConjugations(conjugations);
 
-            Assert.All(conjugations, c => Assert.IsType<Conjugation>(c));
+            Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
             Assert.Equal(conjugations.Select(c => c.Verb), expected);
         }
 
