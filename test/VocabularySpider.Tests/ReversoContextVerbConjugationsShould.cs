@@ -1,8 +1,5 @@
 using Xunit;
 using Xunit.Abstractions;
-using VocabularySpider.Italian;
-using VocabularySpider.French;
-using VocabularySpider.Spanish;
 using VocabularySpider.Classes;
 using VocabularySpider.Tests.DataAttributes;
 using System.Collections.Generic;
@@ -97,6 +94,19 @@ namespace VocabularySpider.Tests
 
             Assert.All(conjugations, c => Assert.IsType<Conjugation>(c));
             Assert.Equal(conjugations.Select(c => c.Verb), expected);
+        }
+
+        [Fact]
+        public void RetrieveItalianVerbWithVerbTenses()
+        {
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "mangiare");
+
+            foreach (var verbTense in verb.VerbTenses)
+            {
+                output.WriteLine(verbTense.VerbTenseName);
+                PrintConjugations(verbTense.Conjugations);
+                output.WriteLine("\n");
+            }
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)

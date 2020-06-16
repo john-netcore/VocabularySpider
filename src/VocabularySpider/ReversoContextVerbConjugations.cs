@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 using VocabularySpider.Classes;
-using VocabularySpider.Italian;
 
 namespace VocabularySpider
 {
@@ -10,9 +9,17 @@ namespace VocabularySpider
     public class ReversoContextVerbConjugations
     {
         private static readonly string urlTemplate = "https://conjugator.reverso.net/conjugation-{0}-verb-{1}.html";
-        protected static readonly string xPath = "//*[@mobile-title]";
+        protected static readonly string xPathAllVerbTenses = "//*[@mobile-title]";
         private static readonly string xPathVerbTenseTemplate = "//*[@mobile-title='{0}']/ul";
+        private readonly string xPathVerbMoodTemplate = "//*[starts-with(@mobile-title, '{0}')]";
         protected static readonly HtmlWeb web;
+        private static HashSet<string> Tenses = new HashSet<string>{
+            "Imperativo Presente",
+            "Gerundio Presente",
+            "Infinito Presente",
+            "Participio Presente",
+            "Participio Passato"
+        };
         private static HashSet<string> SimpleTenses = new HashSet<string>{
             "Indicativo Presente",
             "Indicativo Imperfetto",
@@ -44,18 +51,48 @@ namespace VocabularySpider
             return htmlDoc;
         }
 
-        protected HtmlNodeCollection GetVerbTenseNodes(string verbTensesUrl)
-        {
-            var htmlDoc = web.Load(verbTensesUrl);
-            return htmlDoc.DocumentNode.SelectNodes(xPath);
-        }
-
         public static string GetVerbTense_Infinitive(string language, string verbName)
         {
             var infinitiveXpath = "//*[@id='ch_lblVerb']";
             var htmlDoc = LoadHtmlDocument(language, verbName);
 
             return htmlDoc.DocumentNode.SelectSingleNode(infinitiveXpath).InnerText;
+        }
+
+        public static Verb GetVerbWithTenses(string language, string verbName)
+        {
+            var verb = new Verb(verbName, language);
+            var htmlDoc = LoadHtmlDocument(language, verbName);
+            var verbTenseDivNodes = htmlDoc.DocumentNode.SelectNodes(xPathAllVerbTenses);
+
+            foreach (var verbTenseDivNode in verbTenseDivNodes)
+            {
+                var verbTenseName = verbTenseDivNode.Attributes["mobile-title"].Value;
+                var ulNode = verbTenseDivNode.Descendants("ul").First();
+                var conjugations = GetVerbTenseConjugations(verbTenseName, ulNode);
+                var verbTense = new VerbTense(verbTenseName);
+                verbTense.Conjugations = conjugations.ToList();
+                verb.VerbTenses.Add(verbTense);
+            }
+
+            return verb;
+        }
+
+        private static IEnumerable<Conjugation> GetVerbTenseConjugations(string verbTenseName, HtmlNode ulNode)
+        {
+            var conjugations = new List<Conjugation>();
+
+            foreach (var liNode in ulNode.Descendants("li"))
+            {
+                var iNodes = liNode.Descendants("i");
+                var conjugation = CreateConjugation(verbTenseName, iNodes);
+                if (conjugation != null)
+                {
+                    conjugations.Add(conjugation);
+                }
+            }
+
+            return conjugations;
         }
 
         public static IEnumerable<Conjugation> GetVerbTenseConjugations(string language, string verbName, string verbTenseName)
@@ -83,7 +120,7 @@ namespace VocabularySpider
             {
                 return CreateCompoundTenseConjugation(iNodes);
             }
-            else if (verbTenseName == "Imperativo Presente")
+            else if (Tenses.Contains(verbTenseName))
             {
                 return CreateConjugation(iNodes);
             }

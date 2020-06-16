@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VocabularySpider.Classes
 {
     public class Verb
@@ -10,5 +12,6 @@ namespace VocabularySpider.Classes
 
         public string VerbName { get; set; }
         public string Language { get; private set; }
+        public IList<VerbTense> VerbTenses { get; set; } = new List<VerbTense>();
     }
 }
