@@ -14,7 +14,21 @@
       "Participio Presente",
       "Participio Passato"
     ],
-    "spanish": [],
+    "spanish": [
+      "Indicativo Presente",
+      "Indicativo Futuro",
+      "Indicativo Pretérito imperfecto",
+      "Indicativo Condicional",
+      "Indicativo Pretérito perfecto simple",
+      "Imperativo ",
+      "Subjuntivo Presente",
+      "Subjuntivo Futuro",
+      "Subjuntivo Pretérito imperfecto",
+      "Subjuntivo Pretérito imperfecto (2)",
+      "Gerundio ",
+      "Infinitivo ",
+      "Participio Pasado"
+    ],
     "french": []
   },
   "compoundTenses": {
@@ -28,7 +42,19 @@
       "Congiuntivo Trapassato",
       "Gerundio Passato"
     ],
-    "spanish": [],
+    "spanish": [
+      "Indicativo Pretérito perfecto compuesto",
+      "Indicativo Pretérito pluscuamperfecto",
+      "Indicativo Pretérito anterior",
+      "Indicativo Futuro perfecto",
+      "Indicativo Condicional perfecto",
+      "Subjuntivo Pretérito pluscuamperfecto",
+      "Subjuntivo Futuro perfecto",
+      "Subjuntivo Pretérito pluscuamperfecto (2)",
+      "Subjuntivo Pretérito perfecto",
+      "Gerundio compuesto ",
+      "Infinitivo compuesto "
+    ],
     "french": []
   }
 }

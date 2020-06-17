@@ -15,6 +15,7 @@ namespace VocabularySpider.Tests.DataAttributes
             yield return new object[] { "Condizionale Passato" };
             yield return new object[] { "Congiuntivo Passato" };
             yield return new object[] { "Congiuntivo Trapassato" };
+            yield return new object[] { "Gerundio Passato" };
         }
     }
 }

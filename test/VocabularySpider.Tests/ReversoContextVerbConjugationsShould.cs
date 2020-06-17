@@ -69,7 +69,6 @@ namespace VocabularySpider.Tests
             var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
 
             Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
-            Assert.All(conjugations, c => Assert.NotNull(((SimpleConjugation)c).Pronoun));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
         }
 
@@ -80,7 +79,7 @@ namespace VocabularySpider.Tests
             var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
 
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
-            Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).Pronoun));
+            Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).AuxiliaryVerb));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
         }
 
@@ -107,6 +106,31 @@ namespace VocabularySpider.Tests
                 PrintConjugations(verbTense.Conjugations);
                 output.WriteLine("\n");
             }
+        }
+
+        [Theory]
+        [SpanishSimpleConjugationVerbTensesDataAttribute]
+        public void RetrieveSpanishSimpleConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("spanish", "manejar", verbTenseName);
+
+            PrintConjugations(conjugations);
+
+            Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
+
+        [Theory]
+        [SpanishCompoundConjugationVerbTensesData]
+        public void RetrieveSpanishCompoundConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("spanish", "manejar", verbTenseName);
+
+            PrintConjugations(conjugations);
+
+            Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).AuxiliaryVerb));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)

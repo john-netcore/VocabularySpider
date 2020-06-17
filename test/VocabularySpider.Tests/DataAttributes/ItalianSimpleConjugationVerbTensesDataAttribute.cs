@@ -15,6 +15,11 @@ namespace VocabularySpider.Tests.DataAttributes
             yield return new object[] { "Congiuntivo Presente" };
             yield return new object[] { "Congiuntivo Imperfetto" };
             yield return new object[] { "Condizionale Presente" };
+            yield return new object[] { "Gerundio Presente" };
+            yield return new object[] { "Imperativo Presente" };
+            yield return new object[] { "Infinito Presente" };
+            yield return new object[] { "Participio Presente" };
+            yield return new object[] { "Participio Passato" };
         }
     }
 }
