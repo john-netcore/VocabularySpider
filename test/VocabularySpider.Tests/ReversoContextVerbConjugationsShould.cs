@@ -98,6 +98,8 @@ namespace VocabularySpider.Tests
         [Fact]
         public void RetrieveItalianVerbWithVerbTenses()
         {
+            var expectedTenseCount = 20;
+
             var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "mangiare");
 
             foreach (var verbTense in verb.VerbTenses)
@@ -106,6 +108,8 @@ namespace VocabularySpider.Tests
                 PrintConjugations(verbTense.Conjugations);
                 output.WriteLine("\n");
             }
+
+            Assert.Equal(expectedTenseCount, verb.VerbTenses.Count);
         }
 
         [Theory]
@@ -131,6 +135,23 @@ namespace VocabularySpider.Tests
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).AuxiliaryVerb));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
+
+        [Fact]
+        public void RetrieveSpanishVerbWithVerbTenses()
+        {
+            var expectedTenseCount = 24;
+
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("spanish", "manejar");
+
+            foreach (var verbTense in verb.VerbTenses)
+            {
+                output.WriteLine(verbTense.VerbTenseName);
+                PrintConjugations(verbTense.Conjugations);
+                output.WriteLine("\n");
+            }
+
+            Assert.Equal(expectedTenseCount, verb.VerbTenses.Count);
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
