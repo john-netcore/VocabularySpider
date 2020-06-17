@@ -40,6 +40,16 @@ namespace VocabularySpider.Tests
             Assert.Throws<ArgumentException>(() => new ReversoContextPopularVerbs(unexistingLanguage));
         }
 
+        [Fact]
+        public void TestName()
+        {
+            var sut = new ReversoContextPopularVerbs("italian");
+            var popularVerbs = sut.RetrieveVerbs();
+            printContent(popularVerbs);
+
+            Assert.Equal(30, popularVerbs.Count());
+        }
+
         [Theory]
         [PopularVerbsData]
         public void RetrieveAllVerbs(string language, int expectedVerbCount)

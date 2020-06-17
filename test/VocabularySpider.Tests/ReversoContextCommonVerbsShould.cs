@@ -23,6 +23,16 @@ namespace VocabularySpider.Tests
             }
         }
 
+        [Fact]
+        public void TestName()
+        {
+            //Given
+
+            //When
+
+            //Then
+        }
+
         [Theory]
         [CommonVerbsData]
         public void ShouldRetrieveAllVerbsFromGivenIndex(string language, string index, int expectedVerbCount)

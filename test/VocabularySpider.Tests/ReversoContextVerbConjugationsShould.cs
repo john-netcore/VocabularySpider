@@ -66,7 +66,7 @@ namespace VocabularySpider.Tests
         [ItalianSimpleConjugationVerbTensesDataAttribute]
         public void RetrieveItalianSimpleConjugations(string verbTenseName)
         {
-            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "vivere", verbTenseName);
 
             Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
@@ -76,8 +76,8 @@ namespace VocabularySpider.Tests
         [ItalianCompoundConjugationVerbTensesData]
         public void RetrieveItalianCompoundConjugations(string verbTenseName)
         {
-            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "mangiare", verbTenseName);
-
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("italian", "vivere", verbTenseName);
+            PrintConjugations(conjugations);
             Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
             Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).AuxiliaryVerb));
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
@@ -100,7 +100,7 @@ namespace VocabularySpider.Tests
         {
             var expectedTenseCount = 20;
 
-            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "mangiare");
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "vivere");
 
             foreach (var verbTense in verb.VerbTenses)
             {
@@ -111,6 +111,23 @@ namespace VocabularySpider.Tests
 
             Assert.Equal(expectedTenseCount, verb.VerbTenses.Count);
         }
+
+        [Fact]
+        public void RetrieveItalianFirst250CommonVerbsWithVerbTenses()
+        {
+            IEnumerable<(string VerbName, string ConjugationPath)> verbsInfo = ReversoContextCommonVerbs.RetrieveVerbsFromIndex("italian", "1-250");
+            int actualCount = verbsInfo.Count();
+
+            List<Verb> verbs = new List<Verb>();
+            foreach (var verbInfo in verbsInfo)
+            {
+                var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", verbInfo.VerbName);
+                verbs.Add(verb);
+            }
+
+            Assert.Equal(verbs.Count, actualCount);
+        }
+        
 
         [Theory]
         [SpanishSimpleConjugationVerbTensesDataAttribute]
@@ -152,6 +169,22 @@ namespace VocabularySpider.Tests
             }
 
             Assert.Equal(expectedTenseCount, verb.VerbTenses.Count);
+        }
+
+        [Fact]
+        public void RetrieveSpanishFirst250CommonVerbsWithVerbTenses()
+        {
+            IEnumerable<(string VerbName, string ConjugationPath)> verbsInfo = ReversoContextCommonVerbs.RetrieveVerbsFromIndex("spanish", "1-250");
+            int actualCount = verbsInfo.Count();
+
+            List<Verb> verbs = new List<Verb>();
+            foreach (var verbInfo in verbsInfo)
+            {
+                var verb = ReversoContextVerbConjugations.GetVerbWithTenses("spanish", verbInfo.VerbName);
+                verbs.Add(verb);
+            }
+
+            Assert.Equal(verbs.Count, actualCount);
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
