@@ -29,7 +29,19 @@
       "Infinitivo ",
       "Participio Pasado"
     ],
-    "french": []
+    "french": [
+      "Indicatif Présent",
+      "Indicatif Imparfait",
+      "Indicatif Futur",
+      "Indicatif Passé simple",
+      "Subjonctif Présent",
+      "Subjonctif Imparfait",
+      "Conditionnel Présent",
+      "Participe Présent",
+      "Participe Passé",
+      "Impératif Présent",
+      "Infinitif Présent"
+    ]
   },
   "compoundTenses": {
     "italian": [
@@ -55,6 +67,18 @@
       "Gerundio compuesto ",
       "Infinitivo compuesto "
     ],
-    "french": []
+    "french": [
+      "Indicatif Passé composé",
+      "Indicatif Plus-que-parfait",
+      "Indicatif Passé antérieur",
+      "Indicatif Futur antérieur",
+      "Subjonctif Plus-que-parfait",
+      "Subjonctif Passé",
+      "Conditionnel Passé première forme",
+      "Conditionnel Passé deuxième forme",
+      "Participe Passé composé",
+      "Impératif Passé",
+      "Infinitif Passé"
+    ]
   }
 }

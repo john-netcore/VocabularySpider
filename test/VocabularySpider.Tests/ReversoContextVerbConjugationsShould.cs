@@ -127,7 +127,7 @@ namespace VocabularySpider.Tests
 
             Assert.Equal(verbs.Count, actualCount);
         }
-        
+
 
         [Theory]
         [SpanishSimpleConjugationVerbTensesDataAttribute]
@@ -185,6 +185,29 @@ namespace VocabularySpider.Tests
             }
 
             Assert.Equal(verbs.Count, actualCount);
+        }
+
+        [Theory]
+        [FrenchSimpleConjugationVerbTensesDataAttribute]
+        public void RetrieveFrenchSimpleConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("french", "regarder", verbTenseName);
+            PrintConjugations(conjugations);
+
+            Assert.All(conjugations, c => Assert.IsType<SimpleConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
+        }
+
+        [Theory]
+        [FrenchCompoundConjugationVerbTensesDataAttribute]
+        public void RetrieveFrenchCompoundConjugations(string verbTenseName)
+        {
+            var conjugations = ReversoContextVerbConjugations.GetVerbTenseConjugations("french", "regarder", verbTenseName);
+            PrintConjugations(conjugations);
+
+            Assert.All(conjugations, c => Assert.IsType<CompoundConjugation>(c));
+            Assert.All(conjugations, c => Assert.NotNull(((CompoundConjugation)c).AuxiliaryVerb));
+            Assert.All(conjugations, c => Assert.NotNull(c.Verb));
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)

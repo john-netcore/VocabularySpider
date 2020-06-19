@@ -25,6 +25,40 @@ namespace VocabularySpider.VerbsMetadata
             return nodes.Select(n => n.Attributes["mobile-title"].Value);
         }
 
+        public IEnumerable<string> RetrieveSimpleVerbTenseTypes()
+        {
+            var nodes = document.DocumentNode.SelectNodes(xPathConjugations);
+            List<string> verbTenseNames = new List<string>();
+
+            foreach (var node in nodes)
+            {
+                var iNode = node.Descendants("i").Where(i => i.Attributes["class"].Value == "auxgraytxt").FirstOrDefault();
+                if (iNode == null)
+                {
+                    var name = node.Attributes["mobile-title"].Value;
+                    verbTenseNames.Add(name);
+                }
+            }
+            return verbTenseNames;
+        }
+
+        public IEnumerable<string> RetrieveCompoundVerbTenseTypes()
+        {
+            var nodes = document.DocumentNode.SelectNodes(xPathConjugations);
+            List<string> verbTenseNames = new List<string>();
+
+            foreach (var node in nodes)
+            {
+                var iNode = node.Descendants("i").Where(i => i.Attributes["class"].Value == "auxgraytxt").FirstOrDefault();
+                if (iNode != null)
+                {
+                    var name = node.Attributes["mobile-title"].Value;
+                    verbTenseNames.Add(name);
+                }
+            }
+            return verbTenseNames;
+        }
+
         public IEnumerable<string> RetrieveVerbTenseMoodCollection(string verbTenseMood)
         {
             var divNodes = document.DocumentNode.SelectNodes(string.Format(xPathVerbMoodTemplate, verbTenseMood));

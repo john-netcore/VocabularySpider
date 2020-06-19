@@ -61,6 +61,36 @@ namespace VocabularySpider.Tests
             Assert.NotNull(verbTenseNamesCol);
         }
 
+        [Fact]
+        public void RetrieveFrenchSimpleVerbTenseNames()
+        {
+            var sut = new VerbTenseMetadataRetriever("french", "avoir");
+
+            var verbTenseNamesCol = sut.RetrieveSimpleVerbTenseTypes();
+
+            foreach (var verbTense in verbTenseNamesCol)
+            {
+                output.WriteLine(verbTense);
+            }
+
+            Assert.NotNull(verbTenseNamesCol);
+        }
+
+        [Fact]
+        public void RetrieveFrenchCompoundVerbTenseNames()
+        {
+            var sut = new VerbTenseMetadataRetriever("french", "avoir");
+
+            var verbTenseNamesCol = sut.RetrieveCompoundVerbTenseTypes();
+
+            foreach (var verbTense in verbTenseNamesCol)
+            {
+                output.WriteLine(verbTense);
+            }
+
+            Assert.NotNull(verbTenseNamesCol);
+        }
+
         [Theory]
         [VerbTenseData]
         public void RetrieveVerbTensesForVerbTenseMood(string language, string verb, string verbTenseMood, int expectedVerbTenseMoodCount)
