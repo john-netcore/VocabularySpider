@@ -210,6 +210,39 @@ namespace VocabularySpider.Tests
             Assert.All(conjugations, c => Assert.NotNull(c.Verb));
         }
 
+        [Fact]
+        public void RetrieveFrenchVerbWithVerbTenses()
+        {
+            var expectedTenseCount = 22;
+
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("french", "regarder");
+
+            foreach (var verbTense in verb.VerbTenses)
+            {
+                output.WriteLine(verbTense.VerbTenseName);
+                PrintConjugations(verbTense.Conjugations);
+                output.WriteLine("\n");
+            }
+
+            Assert.Equal(expectedTenseCount, verb.VerbTenses.Count);
+        }
+
+        [Fact]
+        public void RetrieveFrenchFirst250CommonVerbsWithVerbTenses()
+        {
+            IEnumerable<(string VerbName, string ConjugationPath)> verbsInfo = ReversoContextCommonVerbs.RetrieveVerbsFromIndex("french", "1-250");
+            int actualCount = verbsInfo.Count();
+
+            List<Verb> verbs = new List<Verb>();
+            foreach (var verbInfo in verbsInfo)
+            {
+                var verb = ReversoContextVerbConjugations.GetVerbWithTenses("french", verbInfo.VerbName);
+                verbs.Add(verb);
+            }
+
+            Assert.Equal(verbs.Count, actualCount);
+        }
+
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
         {
             foreach (var conjugation in conjugations)
