@@ -5,14 +5,15 @@ namespace VocabularySpider.BL
     public class Verb
     {
 
-        public Verb(string verbName, Language language)
+        public Verb(string infinitive, string language)
         {
-            VerbName = verbName;
+            Infinitive = infinitive;
             Language = language;
         }
 
-        public string VerbName { get; set; }
-        public Language Language { get; private set; }
-        public Dictionary<string, VerbTense> VerbTenses { get; set; } = new Dictionary<string, VerbTense>();
+        public int Id { get; set; }
+        public string Infinitive { get; set; }
+        public string Language { get; private set; }
+        public IList<VerbTense> VerbTenses { get; set; }
     }
 }

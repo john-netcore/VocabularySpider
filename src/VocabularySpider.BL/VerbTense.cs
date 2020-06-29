@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VocabularySpider.BL
 {
     public class VerbTense
@@ -7,6 +9,8 @@ namespace VocabularySpider.BL
             TenseName = tenseName;
         }
 
+        public int Id { get; set; }
         public string TenseName { get; private set; }
+        public IList<Conjugation> Conjugations { get; set; }
     }
 }
