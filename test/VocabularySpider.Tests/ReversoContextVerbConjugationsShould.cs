@@ -247,15 +247,16 @@ namespace VocabularySpider.Tests
         {
             foreach (var conjugation in conjugations)
             {
-                if (conjugation is SimpleConjugation)
-                {
-                    var simple = conjugation as SimpleConjugation;
-                    output.WriteLine($"{simple.Pronoun} {simple.Verb}");
-                }
-                else if (conjugation is CompoundConjugation)
+
+                if (conjugation is CompoundConjugation)
                 {
                     var compound = conjugation as CompoundConjugation;
                     output.WriteLine($"{compound.Pronoun} {compound.AuxiliaryVerb} {compound.Verb}");
+                }
+                else if (conjugation is SimpleConjugation)
+                {
+                    var simple = conjugation as SimpleConjugation;
+                    output.WriteLine($"{simple.Pronoun} {simple.Verb}");
                 }
                 else
                 {
