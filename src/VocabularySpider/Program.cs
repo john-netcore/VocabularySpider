@@ -4,7 +4,7 @@ using VocabularySpider.Classes;
 
 namespace VocabularySpider
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -15,7 +15,7 @@ namespace VocabularySpider
             System.Console.WriteLine("Finished");
         }
 
-        static IEnumerable<string> RetrieveVerbNames(string language, string[] indexes)
+        public static IEnumerable<string> RetrieveVerbNames(string language, string[] indexes)
         {
             List<string> verbNames = new List<string>();
             foreach (var index in indexes)
@@ -30,7 +30,7 @@ namespace VocabularySpider
             return verbNames;
         }
 
-        static IEnumerable<Verb> RetrieveVerbsWithVerbTenseConjugations(string language, IEnumerable<string> verbNames)
+        public static IEnumerable<Verb> RetrieveVerbsWithVerbTenseConjugations(string language, IEnumerable<string> verbNames)
         {
             List<Verb> verbs = new List<Verb>();
 
