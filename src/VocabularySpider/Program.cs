@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using VocabularySpider.Classes;
 
 namespace VocabularySpider
 {
@@ -9,12 +10,12 @@ namespace VocabularySpider
         {
             string[] indexes = File.ReadAllLines("./data/commonVerbIndexes.txt");
 
-            List<string> italianVerbNames = RetrieveVerbNames("italian", indexes);
+            IEnumerable<string> italianVerbNames = RetrieveVerbNames("italian", indexes);
 
             System.Console.WriteLine("Finished");
         }
 
-        static List<string> RetrieveVerbNames(string language, string[] indexes)
+        static IEnumerable<string> RetrieveVerbNames(string language, string[] indexes)
         {
             List<string> verbNames = new List<string>();
             foreach (var index in indexes)
@@ -25,7 +26,21 @@ namespace VocabularySpider
                     verbNames.Add(verbInfo.VerbName);
                 }
             }
+
             return verbNames;
+        }
+
+        static IEnumerable<Verb> RetrieveVerbsWithVerbTenseConjugations(string language, IEnumerable<string> verbNames)
+        {
+            List<Verb> verbs = new List<Verb>();
+
+            foreach (var verbName in verbNames)
+            {
+                var verb = ReversoContextVerbConjugations.GetVerbWithTenses(language, verbName);
+                verbs.Add(verb);
+            }
+
+            return verbs;
         }
     }
 }
