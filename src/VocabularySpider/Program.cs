@@ -10,7 +10,11 @@ namespace VocabularySpider
         {
             string[] indexes = File.ReadAllLines("./data/commonVerbIndexes.txt");
 
-            IEnumerable<string> italianVerbNames = RetrieveVerbNames("italian", indexes);
+            System.Console.WriteLine("Retrieving italian common verb names...");
+            var italianVerbNames = RetrieveVerbNames("italian", indexes);
+
+            System.Console.WriteLine("Retrieving italian common verbs with conjugations");
+            var italianVerbs = RetrieveVerbsWithVerbTenseConjugations("italian", italianVerbNames);
 
             System.Console.WriteLine("Finished");
         }
