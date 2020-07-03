@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 using VocabularySpider.BL;
 
@@ -33,6 +35,22 @@ namespace VocabularySpider
                                     );
 
             return commonVerbs;
+        }
+
+        public static IEnumerable<string> RetrieveVerbsFromIndexes(string language, string[] indexes)
+        {
+            var commonVerbsBag = new ConcurrentBag<string>();
+            Parallel.ForEach(indexes, (index) =>
+            {
+                var url = string.Format(urlTemplate, language, index);
+                var htmlDoc = web.Load(url);
+                var verbs = htmlDoc.DocumentNode
+                        .SelectNodes(xpath)
+                        .Select(l => l.InnerText);
+                verbs.ToList().ForEach(v => commonVerbsBag.Add(v));
+            });
+
+            return commonVerbsBag;
         }
     }
 }
