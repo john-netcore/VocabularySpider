@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -79,6 +81,41 @@ namespace VocabularySpider
             }
 
             return verb;
+        }
+
+        public static List<Verb> GetVerbsWithTenses(string language, IEnumerable<string> verbNames)
+        {
+            var htmlDocsInfo = new ConcurrentBag<(string VerbName, HtmlDocument HtmlDoc)>();
+
+            Parallel.ForEach(verbNames, (verbName) =>
+            {
+                var url = string.Format(urlTemplate, language, verbName);
+                var htmlDoc = web.Load(url);
+
+                htmlDocsInfo.Add((verbName, htmlDoc));
+            });
+
+            var verbs = new List<Verb>();
+
+            foreach (var htmlDocInfo in htmlDocsInfo)
+            {
+                var verb = new Verb(htmlDocInfo.VerbName, language);
+                var verbTenseDivNodes = htmlDocInfo.HtmlDoc.DocumentNode.SelectNodes(xPathAllVerbTenses);
+
+                foreach (var verbTenseDivNode in verbTenseDivNodes)
+                {
+                    var verbTenseName = verbTenseDivNode.Attributes["mobile-title"].Value;
+                    var ulNode = verbTenseDivNode.Descendants("ul").First();
+                    var conjugations = GetVerbTenseConjugations(language, verbTenseName, ulNode);
+                    var verbTense = new VerbTense(verbTenseName);
+                    verbTense.Conjugations = conjugations.ToList();
+                    verb.VerbTenses.Add(verbTense);
+                }
+
+                verbs.Add(verb);
+            }
+
+            return verbs;
         }
 
         private static IEnumerable<Conjugation> GetVerbTenseConjugations(string language, string verbTenseName, HtmlNode ulNode)
