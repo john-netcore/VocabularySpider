@@ -20,12 +20,6 @@ namespace VocabularySpider
             System.Console.WriteLine("Finished");
         }
 
-        public static IEnumerable<BL.Verb> MapVerbs(IEnumerable<Verb> verbs)
-        {
-            var mapper = new Mapper(mapperConfig);
-            return mapper.Map<IEnumerable<Verb>, IEnumerable<BL.Verb>>(verbs);
-        }
-
         public static void Configure()
         {
             // Initialize the mapper
@@ -55,6 +49,12 @@ namespace VocabularySpider
             var verbs = ReversoContextVerbConjugations.GetVerbsWithTenses(language, verbNames);
 
             return verbs;
+        }
+
+        public static IEnumerable<BL.Verb> MapVerbs(IEnumerable<Verb> verbs)
+        {
+            var mapper = new Mapper(mapperConfig);
+            return mapper.Map<IEnumerable<Verb>, IEnumerable<BL.Verb>>(verbs);
         }
     }
 }
