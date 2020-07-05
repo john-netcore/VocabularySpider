@@ -9,17 +9,22 @@ namespace VocabularySpider
     {
         static void Main(string[] args)
         {
+            var italianVerbs = RetrieveVerbs("italian");
+        }
+
+        static IEnumerable<Verb> RetrieveVerbs(string language)
+        {
             string[] indexes = File.ReadAllLines("./data/commonVerbIndexes.txt");
 
-            System.Console.WriteLine("Retrieving italian common verb names...");
-            var italianVerbNames = ReversoContextCommonVerbs.RetrieveVerbsFromIndexes("italian", indexes);
+            System.Console.WriteLine("Retrieving {0} common verb names...", language);
+            var verbNames = ReversoContextCommonVerbs.RetrieveVerbsFromIndexes(language, indexes);
 
-            System.Console.WriteLine("Retrieving italian common verbs with conjugations");
-            var italianVerbs = ReversoContextVerbConjugations.GetVerbsWithTenses("italian", italianVerbNames);
-
-            System.Console.WriteLine("Mapping italian common verbs");
+            System.Console.WriteLine("Retrieving {0} common verbs with conjugations", language);
+            var verbs = ReversoContextVerbConjugations.GetVerbsWithTenses(language, verbNames);
 
             System.Console.WriteLine("Finished");
+
+            return verbs;
         }
     }
 }
