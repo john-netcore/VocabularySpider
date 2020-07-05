@@ -4,6 +4,8 @@ using VocabularySpider.Classes;
 using VocabularySpider.Tests.DataAttributes;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
+using System;
 
 namespace VocabularySpider.Tests
 {
@@ -126,6 +128,37 @@ namespace VocabularySpider.Tests
             }
 
             Assert.Equal(verbs.Count, actualCount);
+        }
+
+        [Fact]
+        public void TestName()
+        {
+            //Arrange
+            var indexes = new string[] {
+                "1-250",
+                "251-500",
+                "501-750",
+                "751-1000",
+                "1001-1250",
+                "1251-1500",
+                "1501-1750",
+                "1751-2000"
+            };
+            int expectedCount = 2000;
+            var stopWatch = new Stopwatch();
+            IEnumerable<string> verbNames = ReversoContextCommonVerbs.RetrieveVerbsFromIndexes("italian", indexes);
+
+            //Act
+            stopWatch.Start();
+            var verbs = ReversoContextVerbConjugations.GetVerbsWithTenses("italian", verbNames);
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            output.WriteLine("RunTime " + elapsedTime);
+
+            //Assert
+            Assert.Equal(expectedCount, verbs.Count());
+            Assert.Equal(20, verbs.First().VerbTenses.Count);
         }
 
 
