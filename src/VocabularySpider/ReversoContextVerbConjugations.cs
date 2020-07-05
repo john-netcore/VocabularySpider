@@ -92,6 +92,7 @@ namespace VocabularySpider
                 var url = string.Format(urlTemplate, language, verbName);
                 var htmlDoc = web.Load(url);
 
+                System.Console.WriteLine("Html document for verb {0} retrieved.", verbName);
                 htmlDocsInfo.Add((verbName, htmlDoc));
             });
 
