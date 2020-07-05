@@ -24,10 +24,20 @@ namespace VocabularySpider.Tests
 
             //When
             Program.Configure();
-            var mappedVerbs = Program.MapVerbs(new List<Verb> { verb });
+            var mappedVerb = Program.MapVerbs(new List<Verb> { verb }).FirstOrDefault();
+            var tensePassatoProssimo = mappedVerb.VerbTenses
+                                    .FirstOrDefault(vt => vt.TenseName == "Indicativo Passato prossimo");
+            var firstConjugation = (BL.CompoundConjugation)tensePassatoProssimo.Conjugations.FirstOrDefault();
+            var lastConjugation = (BL.CompoundConjugation)tensePassatoProssimo.Conjugations.LastOrDefault();
 
             //Then
-            Assert.Equal(1, mappedVerbs.Count());
+            Assert.Equal("io", firstConjugation.Pronoun);
+            Assert.Equal("ho", firstConjugation.AuxiliaryVerb);
+            Assert.Equal("vissuto", firstConjugation.InflictedVerb);
+
+            Assert.Equal("loro", lastConjugation.Pronoun);
+            Assert.Equal("sono", lastConjugation.AuxiliaryVerb);
+            Assert.Equal("vissute", lastConjugation.InflictedVerb);
         }
 
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
