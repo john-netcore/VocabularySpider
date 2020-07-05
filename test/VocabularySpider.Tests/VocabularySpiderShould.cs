@@ -16,22 +16,6 @@ namespace VocabularySpider.Tests
             this.output = output;
         }
 
-        [Fact]
-        public void TestName()
-        {
-            var verbs = Program.RetrieveVerbsWithVerbTenseConjugations("italian", new List<string> { "essere" });
-
-            var verbTenses = verbs.First().VerbTenses;
-
-            foreach (var verbTense in verbTenses)
-            {
-                output.WriteLine(verbTense.VerbTenseName);
-                PrintConjugations(verbTense.Conjugations);
-            }
-
-            Assert.Equal(20, verbTenses.Count);
-        }
-
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
         {
             foreach (var conjugation in conjugations)
