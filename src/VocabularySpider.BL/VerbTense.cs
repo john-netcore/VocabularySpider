@@ -9,6 +9,11 @@ namespace VocabularySpider.BL
             TenseName = tenseName;
         }
 
+        public VerbTense()
+        {
+
+        }
+
         public int Id { get; set; }
         public string TenseName { get; private set; }
         public IList<Conjugation> Conjugations { get; set; }

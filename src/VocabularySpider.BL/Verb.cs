@@ -11,6 +11,8 @@ namespace VocabularySpider.BL
             Language = language;
         }
 
+        public Verb() { }
+
         public int Id { get; set; }
         public string Infinitive { get; set; }
         public string Language { get; private set; }
