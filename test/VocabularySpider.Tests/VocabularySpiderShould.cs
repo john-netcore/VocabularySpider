@@ -16,6 +16,20 @@ namespace VocabularySpider.Tests
             this.output = output;
         }
 
+        [Fact]
+        public void MapVerbs()
+        {
+            //Given
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "vivere");
+
+            //When
+            Program.Configure();
+            var mappedVerbs = Program.MapVerbs(new List<Verb> { verb });
+
+            //Then
+            Assert.Equal(1, mappedVerbs.Count());
+        }
+
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
         {
             foreach (var conjugation in conjugations)
