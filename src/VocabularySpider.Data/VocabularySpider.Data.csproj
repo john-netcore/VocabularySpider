@@ -10,9 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\VocabularySpider.BL\VocabularySpider.BL.csproj" />
   </ItemGroup>
-  <ItemGroup>
-  <Content Include="data/secrets.json">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>
 </Project>

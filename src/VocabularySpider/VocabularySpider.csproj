@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VocabularySpider.Data\VocabularySpider.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
   <Content Include="data/verbTenses.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </Content>
@@ -28,6 +32,12 @@
 
   <ItemGroup>
   <Content Include="data/commonVerbIndexes.txt">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+
+  <ItemGroup>
+  <Content Include="data/secrets.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </Content>
 </ItemGroup>
