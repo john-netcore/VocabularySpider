@@ -3,19 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using AutoMapper;
 using VocabularySpider.Classes;
+using VocabularySpider.Data;
 
 namespace VocabularySpider
 {
     public class Program
     {
+        private static HashSet<string> languages = new HashSet<string> { "italian", "spanish", "french" };
         private static MapperConfiguration mapperConfig;
+        private static VerbContext context = new VerbContext();
 
         static void Main(string[] args)
         {
+            if (args == null || args.Length < 1 || !languages.Contains(args[0].Trim().ToLower()))
+            {
+                System.Console.WriteLine("You must give the language as an argument (italian, spanish, french)");
+                return;
+            }
+
+            var language = args[0].Trim().ToLower();
+
+            System.Console.WriteLine(language);
+
             Configure();
 
-            var italianVerbs = RetrieveVerbs("italian");
-            IEnumerable<BL.Verb> mappedItalianVerbs = MapVerbs(italianVerbs);
+            var verbs = RetrieveVerbs(language);
+            IEnumerable<BL.Verb> mappedverbs = MapVerbs(verbs);
 
             System.Console.WriteLine("Finished");
         }
