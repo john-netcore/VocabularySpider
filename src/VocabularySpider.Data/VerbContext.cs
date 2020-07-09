@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using VocabularySpider.BL;
 
@@ -8,6 +9,14 @@ namespace VocabularySpider.Data
 {
     public class VerbContext : DbContext
     {
+        public static readonly ILoggerFactory ConsoleLoggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddFilter((category, level) =>
+                    category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information
+                ).AddConsole();
+            }
+        );
+
         public DbSet<Verb> Verbs { get; set; }
         public DbSet<VerbTense> VerbTenses { get; set; }
         public DbSet<Conjugation> Conjugations { get; set; }
@@ -17,7 +26,9 @@ namespace VocabularySpider.Data
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             System.Console.WriteLine("On configuring invoked...");
-            builder.UseSqlServer(GetConnectionString());
+            builder
+                .UseLoggerFactory(ConsoleLoggerFactory)
+                .UseSqlServer(GetConnectionString());
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
