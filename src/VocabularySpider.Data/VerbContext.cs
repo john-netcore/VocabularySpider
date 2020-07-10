@@ -51,6 +51,7 @@ namespace VocabularySpider.Data
             var jsonString = File.ReadAllText("./data/secrets.json");
             var myObj = JObject.Parse(jsonString);
             var connString = myObj.SelectToken("connectionString").Value<string>();
+            System.Console.WriteLine("Using connectionstring: {0}", connString);
             return connString;
         }
     }
