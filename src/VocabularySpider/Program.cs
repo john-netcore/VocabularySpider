@@ -28,7 +28,10 @@ namespace VocabularySpider
             Configure();
 
             var verbs = RetrieveVerbs(language);
+
             IEnumerable<BL.Verb> mappedverbs = MapVerbs(verbs);
+
+            AddVerbs(mappedverbs);
 
             System.Console.WriteLine("Finished");
         }
@@ -43,7 +46,7 @@ namespace VocabularySpider
                 cfg.CreateMap<VerbTense, BL.VerbTense>()
                     .ForMember(dest => dest.TenseName, opt => opt.MapFrom(src => src.VerbTenseName));
                 cfg.CreateMap<Conjugation, BL.Conjugation>()
-                    .ForMember(dest => dest.InflictedVerb, opt => opt.MapFrom(src => src.Verb))
+                    .ForMember(dest => dest.InflictedVerb, opt => opt.MapFrom(src => src.Verb == null ? "" : src.Verb))
                     .Include<SimpleConjugation, BL.SimpleConjugation>()
                     .Include<CompoundConjugation, BL.CompoundConjugation>();
                 cfg.CreateMap<SimpleConjugation, BL.SimpleConjugation>();
@@ -68,6 +71,15 @@ namespace VocabularySpider
         {
             var mapper = new Mapper(mapperConfig);
             return mapper.Map<IEnumerable<Verb>, IEnumerable<BL.Verb>>(verbs);
+        }
+
+        public static int AddVerbs(IEnumerable<BL.Verb> verbs)
+        {
+            System.Console.WriteLine("Adding verbs to Db...");
+            context.AddRange(verbs);
+            var count = context.SaveChanges();
+            System.Console.WriteLine("Added {0} rows to Db");
+            return count;
         }
     }
 }

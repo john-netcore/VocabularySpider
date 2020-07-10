@@ -40,6 +40,19 @@ namespace VocabularySpider.Tests
             Assert.Equal("vissute", lastConjugation.InflictedVerb);
         }
 
+        [Fact]
+        public void TestName()
+        {
+            //Given
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "vivere");
+            Program.Configure();
+            var mappedVerbs = Program.MapVerbs(new List<Verb> { verb });
+            //When
+            var count = Program.AddVerbs(mappedVerbs);
+            //Then
+            Assert.True(count > 0);
+        }
+
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
         {
             foreach (var conjugation in conjugations)
