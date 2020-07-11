@@ -41,7 +41,7 @@ namespace VocabularySpider.Tests
         }
 
         [Fact]
-        public void TestName()
+        public void AddingItalianVerbToDb()
         {
             //Given
             var verb = ReversoContextVerbConjugations.GetVerbWithTenses("italian", "vivere");
@@ -50,6 +50,20 @@ namespace VocabularySpider.Tests
             //When
             var count = Program.AddVerbs(mappedVerbs);
             //Then
+            Assert.True(count > 0);
+        }
+
+        [Fact]
+        public void AddingSpanishVerbToDb()
+        {
+            //Given
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("spanish", "vivir");
+            Program.Configure();
+            var mappedVerbs = Program.MapVerbs(new List<Verb> { verb });
+            //When
+            var count = Program.AddVerbs(mappedVerbs);
+            //Then
+            output.WriteLine("Insertion count: {0}", count);
             Assert.True(count > 0);
         }
 
