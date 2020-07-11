@@ -67,6 +67,20 @@ namespace VocabularySpider.Tests
             Assert.True(count > 0);
         }
 
+        [Fact]
+        public void AddingFrenchVerbToDb()
+        {
+            //Given
+            var verb = ReversoContextVerbConjugations.GetVerbWithTenses("french", "être");
+            Program.Configure();
+            var mappedVerbs = Program.MapVerbs(new List<Verb> { verb });
+            //When
+            var count = Program.AddVerbs(mappedVerbs);
+            //Then
+            output.WriteLine("Insertion count: {0}", count);
+            Assert.True(count > 0);
+        }
+
         private void PrintConjugations(IEnumerable<Conjugation> conjugations)
         {
             foreach (var conjugation in conjugations)
