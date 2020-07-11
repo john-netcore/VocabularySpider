@@ -38,8 +38,10 @@ namespace VocabularySpider.Data
             builder.Entity<Verb>().Property(b => b.Infinitive).IsRequired();
 
             builder.Entity<VerbTense>().Property(b => b.TenseName).IsRequired();
+            builder.Entity<VerbTense>().HasOne<Verb>().WithMany(v => v.VerbTenses).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Conjugation>().Property(b => b.InflictedVerb).IsRequired();
+            builder.Entity<Conjugation>().HasOne<VerbTense>().WithMany(vt => vt.Conjugations).OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<SimpleConjugation>().Property(b => b.Pronoun).IsRequired();
 
